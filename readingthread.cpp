@@ -86,6 +86,8 @@ void ReadingThread::run()
 
     int counter = 0;
 
+    bool current_abort = false;
+
     // рабочий цикл потока чтения файла
     while (position < file.size())
     {
@@ -94,15 +96,13 @@ void ReadingThread::run()
         getWords(buffer, previous);
 
         mutex.lock();
+        current_abort = abort;
+        mutex.unlock();
+
         // если процесс остановлен
-        if (abort)
-        {
-            mutex.unlock();
+        if (current_abort)
             // выходим из цикла чтения
             break;
-        }
-        else
-            mutex.unlock();
 
         // отдыхаем
         msleep(50);
@@ -122,7 +122,7 @@ void ReadingThread::run()
     file.close();
 
     // если было нормальное завершение чтения
-    if (!abort)
+    if (!current_abort)
     {
         // обрабатываем накопившийся остаток
         if (!previous.isEmpty() && previous.size() <= maxWordLength)
