@@ -1,6 +1,6 @@
 # Words Finder
 
-![screenshot](https://github.com/veprikovnv/WordsFinder/blob/master/screenshot.jpg?raw=true "App screenshot")
+![screenshot](https://github.com/veprikovnv/WordsFinder/blob/main/screenshot.jpg?raw=true "App screenshot")
 
 Проект написан на C++ с использованием фреймворка Qt. Интерфейс пользователя реализован через QML.
 
