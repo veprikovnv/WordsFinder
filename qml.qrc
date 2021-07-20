@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Histogram.qml</file>
+        <file>SettingsDialog.qml</file>
+        <file>constants.js</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>settings.png</file>
+        <file>settings_off.png</file>
+    </qresource>
+</RCC>
