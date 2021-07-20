@@ -143,7 +143,7 @@ Window {
             path = path.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"");
             path = decodeURIComponent(path);
 
-            window.title = qsTr("Word Finder") + "-" + path;
+            window.title = qsTr("Words Finder") + " - " + path;
 
             manager.openFile(path)
         }
