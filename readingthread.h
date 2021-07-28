@@ -35,13 +35,12 @@ public slots:
 protected:
     void run();
 
-private slots:
-    void getNextInfo();
-
 private:
     void getWords(const QByteArray &buffer, QByteArray &previous, bool last = false);
 
     void addWords(const QStringList &words);
+
+    void getNextInfo();
 
     QFile file;
     // словарь со статистикой слов в файле

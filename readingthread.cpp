@@ -135,51 +135,6 @@ void ReadingThread::run()
 
 }
 
-void ReadingThread::getNextInfo()
-{
-    if (statistics.isEmpty())
-        return;
-
-    // информация для гистограммы
-    QVector<Info> outVect;
-
-    QStringList words = statistics.keys();
-    QList <int> values = statistics.values();
-
-    // сортируем количество накопленных слов
-    std::sort(values.begin(), values.end());
-
-    // отрезаем то, что больше количества срок гистограммы
-    if (values.size() > maxLines)
-        values = values.mid(values.size()-maxLines);
-
-    // ключи в словаре QMap по умолчанию отсортированы по возрастанию
-    // сортировка не требуется
-//    words.sort();
-
-    // максимальное количество слов
-    int max = values.last();
-
-    for (QString word : words)
-    {
-        int number = statistics[word];
-
-        // если такого количества нет в списке для гистограммы
-        if (!values.contains(number))
-            // переходим к следующему
-            continue;
-
-        // удаляем данное количество
-        values.removeOne(number);
-
-        // добавляем информацию о данном слове
-        outVect.append(Info{word, number, (double)number/max});
-    }
-
-    // передаём полученную информацию в основной менеджер
-    emit outInfo(outVect);
-}
-
 void ReadingThread::getWords(const QByteArray &buffer, QByteArray &previous, bool last)
 {
     QStringList words;
@@ -254,3 +209,47 @@ void ReadingThread::addWords(const QStringList &words)
     }
 }
 
+void ReadingThread::getNextInfo()
+{
+    if (statistics.isEmpty())
+        return;
+
+    // информация для гистограммы
+    QVector<Info> outVect;
+
+    QStringList words = statistics.keys();
+    QList <int> values = statistics.values();
+
+    // сортируем количество накопленных слов
+    std::sort(values.begin(), values.end());
+
+    // отрезаем то, что больше количества срок гистограммы
+    if (values.size() > maxLines)
+        values = values.mid(values.size()-maxLines);
+
+    // ключи в словаре QMap по умолчанию отсортированы по возрастанию
+    // сортировка не требуется
+//    words.sort();
+
+    // максимальное количество слов
+    int max = values.last();
+
+    for (QString word : words)
+    {
+        int number = statistics[word];
+
+        // если такого количества нет в списке для гистограммы
+        if (!values.contains(number))
+            // переходим к следующему
+            continue;
+
+        // удаляем данное количество
+        values.removeOne(number);
+
+        // добавляем информацию о данном слове
+        outVect.append(Info{word, number, (double)number/max});
+    }
+
+    // передаём полученную информацию в основной менеджер
+    emit outInfo(outVect);
+}
