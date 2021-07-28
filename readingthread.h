@@ -39,7 +39,7 @@ private slots:
     void getNextInfo();
 
 private:
-    void getWords(const QByteArray &buffer, QByteArray &previous);
+    void getWords(const QByteArray &buffer, QByteArray &previous, bool last = false);
 
     void addWords(const QStringList &words);
 

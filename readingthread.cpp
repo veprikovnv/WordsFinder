@@ -126,7 +126,7 @@ void ReadingThread::run()
     {
         // обрабатываем накопившийся остаток
         if (!previous.isEmpty() && previous.size() <= maxWordLength)
-            addWords(QStringList(previous));
+            getWords(QByteArray(), previous, true);
 
         getNextInfo();
 
@@ -180,7 +180,7 @@ void ReadingThread::getNextInfo()
     emit outInfo(outVect);
 }
 
-void ReadingThread::getWords(const QByteArray &buffer, QByteArray &previous)
+void ReadingThread::getWords(const QByteArray &buffer, QByteArray &previous, bool last)
 {
     QStringList words;
 
@@ -197,7 +197,7 @@ void ReadingThread::getWords(const QByteArray &buffer, QByteArray &previous)
     previous.append(buffer);
 
     // если есть разделитель слов
-    if (previous.contains(separator))
+    if (previous.contains(separator) || last)
     {
         // получаем список слов
         QList<QByteArray> list = previous.split(separator);
@@ -208,7 +208,8 @@ void ReadingThread::getWords(const QByteArray &buffer, QByteArray &previous)
             list.removeFirst();
 
         // в остаток помещаем начало последнего слова
-        previous = list.takeLast();
+        if (!last)
+            previous = list.takeLast();
 
         for (QByteArray word : list)
         {
